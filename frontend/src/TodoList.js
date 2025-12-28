@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://api.localhost/api/todos/";
+const API_URL = "http://localhost:8080/api/todos/";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);

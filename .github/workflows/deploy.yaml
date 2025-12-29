@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches: ["master"]
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3 
+
+      - name: Build docker images
+        run: |
+          docker build -t todo-app-backend:latest ./backend
+          docker build -t todo-app-frontend:latest ./frontend
+
+      - name:  Load docker-image to kind
+        run: |
+          kind load docker-image todo-app-backend:latest --name todo-cluster
+          kind load docker-image todo-app-frontend:latest --name todo-cluster
+
+      - name: Deploy kubernetes
+        run: |
+          kubectl apply -f k8s/
+      
+      - name: Wait for Postgres 
+        run: | 
+          kubectl wait --for=condition=ready pod -l app=postgres --timeout=60s
+
+      - name: Django migrate
+        run: |
+          kubectl exec $(kubectl get pod -l app=backend -o jsonpath='{.items[0].metadata.name}') -- python manage.py migrate

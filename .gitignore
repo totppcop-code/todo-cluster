@@ -1,3 +1,27 @@
+# GitHub Actions Runner
+.runner/
+_work/
+bin/
+externals/
+config.sh
+env.sh
+run.sh
+svc.sh
+safe_sleep.sh
+run-helper.sh
+run-helper.sh.template
+run-helper.cmd.template
+actions-runner-linux-x64-*.tar.gz
+
+# Credentials
+.credentials
+.path
+
+#nodes.js/React
+node_modules/
+build/
+dist/
+
 #System
 AppData/
 *.log 

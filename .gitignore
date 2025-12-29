@@ -13,6 +13,10 @@ run-helper.sh.template
 run-helper.cmd.template
 actions-runner-linux-x64-*.tar.gz
 
+# 忽略 GitHub Actions Runner 產生的檔案
+.runner
+_diag/
+
 # Credentials
 .credentials
 .path

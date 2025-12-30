@@ -9,6 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3 
 
+      - name: kind create cluster
+        run: |
+          kind create cluster --name todo-cluster --config kind-config.yaml
+          kubectl cluster-info --context kind-todo-cluster
+          kubectl get nodes
+
       - name: Build docker images
         run: |
           docker build -t todo-app-backend:latest ./backend
@@ -25,7 +31,11 @@ jobs:
       
       - name: Wait for Postgres 
         run: | 
-          kubectl wait --for=condition=ready pod -l app=postgres --timeout=60s
+          kubectl wait --for=condition=ready pod -l app=postgres --timeout=120s
+
+      - name: Wait for backend
+        run: |
+          kubectl wait --for=condition=ready pod -l app=backend --timeout=120s
 
       - name: Django migrate
         run: |

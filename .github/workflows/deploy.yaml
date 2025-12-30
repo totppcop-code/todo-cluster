@@ -29,13 +29,19 @@ jobs:
         run: |
           kubectl apply -f k8s/
       
+      - name: Debug pods
+        run: |
+          kubectl get pods --show-labels
+          kubectl get svc
+
+      
       - name: Wait for Postgres 
         run: | 
-          kubectl wait --for=condition=ready pod -l app=postgres --timeout=120s
+          kubectl rollout status deployment postgres-deployment --timeout=120s
 
       - name: Wait for backend
         run: |
-          kubectl wait --for=condition=ready pod -l app=backend --timeout=120s
+          kubectl rollout status deployment backend-deployment --timeout=120s
 
       - name: Django migrate
         run: |

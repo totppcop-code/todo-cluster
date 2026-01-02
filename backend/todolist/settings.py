@@ -30,7 +30,7 @@ ALLOWED_HOSTS = [
     "api.localhost",
     "127.0.0.1",
     'localhost',
-    'todo.localhost',
+    '*',
 ]
 
 CORS_ALLOWED_ORIGINS = [
